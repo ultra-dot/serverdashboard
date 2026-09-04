@@ -228,23 +228,106 @@ body {
 }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ========== RESPONSIVE ========== */
+
+/* --- Tablet Landscape & small desktops (≤1024px) --- */
+@media (max-width: 1024px) {
+  body { padding: 2rem; gap: 2rem; }
+
   .widget-strip {
-    grid-template-columns: repeat(5, minmax(220px, 1fr));
-    overflow-x: auto;
-    padding-bottom: 1.5rem;
-    -webkit-overflow-scrolling: touch;
+    grid-template-columns: repeat(3, 1fr);
   }
-  .widget-strip::-webkit-scrollbar {
-    height: 12px;
+  /* Host & Time span the bottom row */
+  .widget-host { grid-column: 1 / 2; }
+  .widget-time { grid-column: 2 / 4; }
+}
+
+/* --- Tablet Portrait (≤768px) --- */
+@media (max-width: 768px) {
+  body { padding: 1.5rem; gap: 1.5rem; }
+
+  .header h1 { 
+    text-shadow: 3px 3px 0 #fff, 5px 5px 0 #000; 
   }
-  .widget-strip::-webkit-scrollbar-track {
-    background: #f0f0f0;
-    border: 3px solid #000;
+  .header p { font-size: 0.95rem; padding: 0.5rem 1rem; }
+
+  .widget-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
-  .widget-strip::-webkit-scrollbar-thumb {
-    background: #000;
-    border: 2px solid #fff;
+  .widget-host { grid-column: span 1; }
+  .widget-time { grid-column: span 1; }
+
+  .widget { box-shadow: 4px 4px 0 #000; }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .card { box-shadow: 6px 6px 0 #000; }
+  .card:hover { transform: translate(3px, 3px); box-shadow: 3px 3px 0 #000; }
+
+  .card-title { font-size: 1.5rem; }
+  .card-desc { font-size: 0.9rem; }
+}
+
+/* --- Mobile (≤480px) --- */
+@media (max-width: 480px) {
+  body { padding: 1rem; gap: 1.2rem; }
+
+  .header .badge { 
+    font-size: 0.65rem; padding: 0.3rem 0.7rem; 
+    letter-spacing: 1px; box-shadow: 3px 3px 0 #000; 
+  }
+  .header h1 { 
+    font-size: 1.8rem; letter-spacing: -1px;
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 #000; 
+  }
+  .header p { 
+    font-size: 0.8rem; padding: 0.4rem 0.8rem; 
+    box-shadow: 3px 3px 0 #000; border-width: 2px;
+  }
+
+  .widget-strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  .widget-host { grid-column: 1 / -1; }
+  .widget-time { grid-column: 1 / -1; }
+
+  .widget { 
+    padding: 0.8rem; border-width: 2px; 
+    box-shadow: 3px 3px 0 #000; 
+  }
+  .widget:hover { transform: none; box-shadow: 3px 3px 0 #000; }
+  .widget-label { font-size: 0.65rem; border-bottom-width: 2px; }
+  .widget-main { font-size: 1.6rem; }
+  .widget-sub { font-size: 0.65rem; padding: 0.2rem 0.4rem; }
+
+  .grid-container { grid-template-columns: 1fr; gap: 1rem; }
+
+  .card { 
+    border-width: 3px; box-shadow: 5px 5px 0 #000; 
+  }
+  .card:hover { transform: none; box-shadow: 5px 5px 0 #000; }
+  .card-header { padding: 0.8rem; border-bottom-width: 3px; }
+  .card-header .tag { 
+    font-size: 0.6rem; padding: 0.2rem 0.5rem; 
+    border-width: 2px; box-shadow: 1px 1px 0 #000; 
+  }
+  .card-header .icon { font-size: 1.5rem; }
+  .card-title { font-size: 1.3rem; padding: 0.8rem 0.8rem 0.4rem; }
+  .card-desc { padding: 0 0.8rem 0.8rem; font-size: 0.85rem; }
+  .card-footer { 
+    padding: 0.7rem 0.8rem; border-top-width: 3px; 
+  }
+  .card-footer .url-text { font-size: 0.75rem; max-width: 180px; }
+  .card-footer .arrow-btn { font-size: 1.2rem; }
+
+  .app-status { font-size: 0.55rem; padding: 0.15rem 0.35rem; }
+
+  .footer .status-pill { 
+    font-size: 0.75rem; padding: 0.5rem 0.8rem; 
+    box-shadow: 3px 3px 0 #000; 
   }
 }
