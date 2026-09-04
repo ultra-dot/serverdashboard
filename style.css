@@ -192,6 +192,8 @@ body {
 .card-yellow .card-footer { background: #fff0a8; }
 .card-coral { background: #ff9b9b; }
 .card-coral .card-footer { background: #ffbfbf; }
+.card-blue { background: #a8d4ff; }
+.card-blue .card-footer { background: #c7e3ff; }
 
 /* App Status */
 .app-status {
