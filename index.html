@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ULTRADOT's HQ — Server Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="badge">SERVER DASHBOARD</div>
+    <h1 class="title">ULTRADOT's HQ 🚀</h1>
+    <p class="subtitle">Quick access to all self-hosted apps running on VPS.</p>
+  </header>
+
+  <!-- VM INFO WIDGETS -->
+  <section class="widget-strip">
+    <div class="widget widget-host">
+      <div class="widget-label">HOST</div>
+      <div class="widget-main" id="w-hostname">—</div>
+      <div class="widget-sub" id="w-os">—</div>
+      <div class="widget-sub" id="w-ip">—</div>
+    </div>
+    <div class="widget widget-cpu">
+      <div class="widget-label">CPU LOAD</div>
+      <div class="widget-main"><span id="w-cpu-pct">0</span><span class="unit">%</span></div>
+      <svg class="widget-spark" id="w-cpu-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><path class="spark-area" d=""></path><polyline class="spark-line" points=""></polyline></svg>
+      <div class="widget-sub" id="w-cpu-model">—</div>
+    </div>
+    <div class="widget widget-mem">
+      <div class="widget-label">MEMORY</div>
+      <div class="widget-main"><span id="w-mem-pct">0</span><span class="unit">%</span></div>
+      <svg class="widget-spark" id="w-mem-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><path class="spark-area" d=""></path><polyline class="spark-line" points=""></polyline></svg>
+      <div class="widget-sub" id="w-mem-detail">—</div>
+    </div>
+    <div class="widget widget-disk">
+      <div class="widget-label">STORAGE</div>
+      <div class="widget-main"><span id="w-disk-pct">0</span><span class="unit">%</span></div>
+      <svg class="widget-spark" id="w-disk-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><path class="spark-area" d=""></path><polyline class="spark-line" points=""></polyline></svg>
+      <div class="widget-sub" id="w-disk-detail">—</div>
+    </div>
+    <div class="widget widget-time">
+      <div class="widget-label">SERVER TIME</div>
+      <div class="widget-main" id="w-time">—</div>
+      <div class="widget-sub" id="w-uptime">uptime: —</div>
+    </div>
+  </section>
+
+  <main class="grid-container">
+    <!-- Card 1: OpenClaw -->
+    <a href="https://claw.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-purple">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">AI GATEWAY</span>
+          <span class="app-status checking" data-url="https://claw.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">🤖</span>
+      </div>
+      <h2 class="card-title">OpenClaw</h2>
+      <p class="card-desc">Personal autonomous AI assistant, automation engine & tool gateway.</p>
+      <div class="card-footer">
+        <span class="url-text">claw.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
+
+    <!-- Card 2: 9router -->
+    <a href="https://9.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-green">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">LOAD BALANCER</span>
+          <span class="app-status checking" data-url="https://9.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">⚡</span>
+      </div>
+      <h2 class="card-title">9router</h2>
+      <p class="card-desc">Multi-account AI model router with round-robin quota rotation.</p>
+      <div class="card-footer">
+        <span class="url-text">9.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
+
+    <!-- Card 3: Uptime Kuma -->
+    <a href="https://kuma.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-yellow">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">MONITORING</span>
+          <span class="app-status checking" data-url="https://kuma.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">📈</span>
+      </div>
+      <h2 class="card-title">Uptime Kuma</h2>
+      <p class="card-desc">Real-time uptime status monitor, heartbeat check & notification alerts.</p>
+      <div class="card-footer">
+        <span class="url-text">kuma.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
+
+    <!-- Card 4: Stirling-PDF -->
+    <a href="https://pdf.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-coral">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">PDF TOOLSET</span>
+          <span class="app-status checking" data-url="https://pdf.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">📄</span>
+      </div>
+      <h2 class="card-title">Stirling-PDF</h2>
+      <p class="card-desc">Self-hosted iLovePDF killer: merge, split, compress, OCR & edit PDF.</p>
+      <div class="card-footer">
+        <span class="url-text">pdf.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
+  </main>
+
+  <footer class="footer">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span>ALL SYSTEMS OPERATIONAL</span>
+    </div>
+  </footer>
+
+  <script>
+    let serverUptimeSec = 0;
+    
+    function formatUptime(sec) {
+      const d = Math.floor(sec / 86400);
+      const h = Math.floor((sec % 86400) / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = Math.floor(sec % 60);
+      if (d > 0) return `${d}d ${h}h ${m}m ${s}s`;
+      if (h > 0) return `${h}h ${m}m ${s}s`;
+      return `${m}m ${s}s`;
+    }
+
+    // Refresh System (CPU, RAM, Disk) - Every 4s
+    async function refreshSystem() {
+      try {
+        const r = await fetch('/api/system', { cache: 'no-store' });
+        if (!r.ok) return;
+        const d = await r.json();
+        document.getElementById('w-hostname').textContent = d.host.hostname;
+        document.getElementById('w-os').textContent = d.host.os + ' · ' + d.host.cpus + ' cores';
+        document.getElementById('w-ip').textContent = d.host.ip;
+        document.getElementById('w-cpu-pct').textContent = d.cpu.pct.toFixed(1);
+        document.getElementById('w-cpu-model').textContent = d.cpu.model;
+        document.getElementById('w-mem-pct').textContent = d.mem.pct;
+        document.getElementById('w-mem-detail').textContent = d.mem.usedGB + 'G / ' + d.mem.totalGB + 'G';
+        document.getElementById('w-disk-pct').textContent = d.disk.pct;
+        document.getElementById('w-disk-detail').textContent = d.disk.used + ' / ' + d.disk.total + ' used';
+        renderSpark('w-cpu-spark', d.history.cpu, 100);
+        renderSpark('w-mem-spark', d.history.mem, 100);
+        renderSpark('w-disk-spark', d.history.disk, 100);
+        
+        serverUptimeSec = d.time.uptimeSec;
+      } catch (e) { /* keep last value */ }
+    }
+
+    // Refresh Time & Uptime - Every 1s locally
+    function refreshTime() {
+      if (serverUptimeSec > 0) {
+        serverUptimeSec++;
+        document.getElementById('w-uptime').textContent = 'uptime: ' + formatUptime(serverUptimeSec);
+      }
+      const now = new Date();
+      // Format as YYYY-MM-DD HH:mm:ss for a clean server-time look
+      const pad = (n) => n.toString().padStart(2, '0');
+      const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      document.getElementById('w-time').textContent = timeStr;
+    }
+
+    // Refresh App Status - Every 60s
+    async function refreshAppsStatus() {
+      const badges = document.querySelectorAll('.app-status');
+      for (const badge of badges) {
+        const url = badge.getAttribute('data-url');
+        if (!url) continue;
+        badge.className = 'app-status checking';
+        badge.textContent = 'CHK';
+        try {
+          const r = await fetch('/api/status?url=' + encodeURIComponent(url));
+          const res = await r.json();
+          if (res.up) {
+            badge.className = 'app-status up';
+            badge.textContent = 'UP';
+          } else {
+            badge.className = 'app-status down';
+            badge.textContent = 'DOWN';
+          }
+        } catch(e) {
+          badge.className = 'app-status down';
+          badge.textContent = 'ERR';
+        }
+      }
+    }
+
+    function renderSpark(id, data, h) {
+      const svg = document.getElementById(id);
+      if (!svg || data.length < 2) return;
+      const w = 100, max = 100;
+      const stepX = w / (data.length - 1);
+      const points = data.map((v, i) => {
+        const x = (i * stepX).toFixed(2);
+        const y = (h - (v / max) * h).toFixed(2);
+        return x + ',' + y;
+      }).join(' ');
+      svg.querySelector('.spark-line').setAttribute('points', points);
+      const area = 'M0,' + h + ' L' + points.split(' ').join(' L') + ' L' + w + ',' + h + ' Z';
+      svg.querySelector('.spark-area').setAttribute('d', area);
+    }
+
+    // Init and Set Intervals
+    refreshSystem();
+    refreshTime();
+    refreshAppsStatus();
+
+    setInterval(refreshTime, 1000);
+    setInterval(refreshSystem, 4000);
+    setInterval(refreshAppsStatus, 60000);
+  </script>
+</body>
+</html>
