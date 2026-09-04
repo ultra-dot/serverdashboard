@@ -62,6 +62,7 @@
       </div>
       <h2 class="card-title">OpenClaw</h2>
       <p class="card-desc">Personal autonomous AI assistant, automation engine & tool gateway.</p>
+      <div class="status-history" data-url="https://claw.ultradot.space"></div>
       <div class="card-footer">
         <span class="url-text">claw.ultradot.space</span>
         <span class="arrow-btn">↗</span>
@@ -79,6 +80,7 @@
       </div>
       <h2 class="card-title">9router</h2>
       <p class="card-desc">Multi-account AI model router with round-robin quota rotation.</p>
+      <div class="status-history" data-url="https://9.ultradot.space"></div>
       <div class="card-footer">
         <span class="url-text">9.ultradot.space</span>
         <span class="arrow-btn">↗</span>
@@ -96,6 +98,7 @@
       </div>
       <h2 class="card-title">Uptime Kuma</h2>
       <p class="card-desc">Real-time uptime status monitor, heartbeat check & notification alerts.</p>
+      <div class="status-history" data-url="https://kuma.ultradot.space"></div>
       <div class="card-footer">
         <span class="url-text">kuma.ultradot.space</span>
         <span class="arrow-btn">↗</span>
@@ -113,6 +116,7 @@
       </div>
       <h2 class="card-title">Stirling-PDF</h2>
       <p class="card-desc">Self-hosted iLovePDF killer: merge, split, compress, OCR & edit PDF.</p>
+      <div class="status-history" data-url="https://pdf.ultradot.space"></div>
       <div class="card-footer">
         <span class="url-text">pdf.ultradot.space</span>
         <span class="arrow-btn">↗</span>
@@ -130,6 +134,7 @@
       </div>
       <h2 class="card-title">IT Tools</h2>
       <p class="card-desc">All-in-one developer toolbox: hash, encode, convert, generate & more.</p>
+      <div class="status-history" data-url="https://tools.ultradot.space"></div>
       <div class="card-footer">
         <span class="url-text">tools.ultradot.space</span>
         <span class="arrow-btn">↗</span>
@@ -146,7 +151,10 @@
 
   <script>
     let serverUptimeSec = 0;
-    
+    const HISTORY_SLOTS = 5;
+    // { url: [true/false/null, ...] } — null = not checked yet
+    const appHistory = {};
+
     function formatUptime(sec) {
       const d = Math.floor(sec / 86400);
       const h = Math.floor((sec % 86400) / 3600);
@@ -155,6 +163,37 @@
       if (d > 0) return `${d}d ${h}h ${m}m ${s}s`;
       if (h > 0) return `${h}h ${m}m ${s}s`;
       return `${m}m ${s}s`;
+    }
+
+    // Initialize heartbeat boxes on page load
+    function initHeartbeats() {
+      document.querySelectorAll('.status-history').forEach(container => {
+        const url = container.getAttribute('data-url');
+        appHistory[url] = new Array(HISTORY_SLOTS).fill(null);
+        for (let i = 0; i < HISTORY_SLOTS; i++) {
+          const box = document.createElement('span');
+          box.className = 'hb-box pending';
+          container.appendChild(box);
+        }
+      });
+    }
+
+    function renderHeartbeats() {
+      document.querySelectorAll('.status-history').forEach(container => {
+        const url = container.getAttribute('data-url');
+        const history = appHistory[url];
+        if (!history) return;
+        const boxes = container.querySelectorAll('.hb-box');
+        history.forEach((val, i) => {
+          if (val === null) {
+            boxes[i].className = 'hb-box pending';
+          } else if (val) {
+            boxes[i].className = 'hb-box up';
+          } else {
+            boxes[i].className = 'hb-box down';
+          }
+        });
+      });
     }
 
     // Refresh System (CPU, RAM, Disk) - Every 4s
@@ -187,7 +226,6 @@
         document.getElementById('w-uptime').textContent = 'uptime: ' + formatUptime(serverUptimeSec);
       }
       const now = new Date();
-      // Format as YYYY-MM-DD HH:mm:ss for a clean server-time look
       const pad = (n) => n.toString().padStart(2, '0');
       const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
       document.getElementById('w-time').textContent = timeStr;
@@ -196,25 +234,50 @@
     // Refresh App Status - Every 60s
     async function refreshAppsStatus() {
       const badges = document.querySelectorAll('.app-status');
+      let allUp = true;
+
       for (const badge of badges) {
         const url = badge.getAttribute('data-url');
         if (!url) continue;
         badge.className = 'app-status checking';
         badge.textContent = 'CHK';
+
+        let isUp = false;
         try {
           const r = await fetch('/api/status?url=' + encodeURIComponent(url));
           const res = await r.json();
-          if (res.up) {
-            badge.className = 'app-status up';
-            badge.textContent = 'UP';
-          } else {
-            badge.className = 'app-status down';
-            badge.textContent = 'DOWN';
-          }
+          isUp = res.up;
         } catch(e) {
-          badge.className = 'app-status down';
-          badge.textContent = 'ERR';
+          isUp = false;
         }
+
+        if (isUp) {
+          badge.className = 'app-status up';
+          badge.textContent = 'UP';
+        } else {
+          badge.className = 'app-status down';
+          badge.textContent = 'DOWN';
+          allUp = false;
+        }
+
+        // Push to heartbeat history
+        if (appHistory[url]) {
+          appHistory[url].push(isUp);
+          if (appHistory[url].length > HISTORY_SLOTS) appHistory[url].shift();
+        }
+      }
+
+      renderHeartbeats();
+
+      // Update footer status pill
+      const footerText = document.querySelector('.footer .status-pill span:last-child');
+      const footerDot = document.querySelector('.footer .status-dot');
+      if (allUp) {
+        footerText.textContent = 'ALL SYSTEMS OPERATIONAL';
+        footerDot.style.background = '#4caf50';
+      } else {
+        footerText.textContent = 'PARTIAL OUTAGE DETECTED';
+        footerDot.style.background = '#ff5252';
       }
     }
 
@@ -234,6 +297,7 @@
     }
 
     // Init and Set Intervals
+    initHeartbeats();
     refreshSystem();
     refreshTime();
     refreshAppsStatus();

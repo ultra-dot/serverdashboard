@@ -212,6 +212,37 @@ body {
 .app-status.down { background: #ff9b9b; }
 .app-status.checking { background: #ffde59; }
 
+/* Heartbeat History Strip */
+.status-history {
+  display: flex;
+  gap: 4px;
+  padding: 0.6rem 1.2rem;
+  border-top: 3px solid #000;
+  align-items: center;
+}
+.status-history::before {
+  content: '5m';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: #000;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
+.hb-box {
+  flex: 1;
+  height: 20px;
+  border: 2px solid #000;
+  transition: background 0.2s ease;
+}
+.hb-box.pending { 
+  background: repeating-linear-gradient(
+    45deg, #ddd, #ddd 3px, #eee 3px, #eee 6px
+  ); 
+}
+.hb-box.up { background: #4caf50; }
+.hb-box.down { background: #ff5252; }
+
 /* Footer */
 .footer { width: 100%; max-width: 900px; text-align: center; margin-top: 1rem; }
 .footer .status-pill { 
