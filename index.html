@@ -11,10 +11,42 @@
 </head>
 <body>
 
+  <!-- Fixed Floating Settings Trigger Button (Top-Right) -->
+  <button class="settings-btn" id="open-settings-btn" aria-label="Buka Pengaturan & Kontrol Layanan">
+    <span>⚙️</span>
+    <span>SETTINGS</span>
+  </button>
+
   <header class="header">
     <div class="badge">SERVER DASHBOARD</div>
     <h1 class="title">ULTRADOT's HQ 🚀</h1>
     <p class="subtitle">Quick access to all self-hosted apps running on VPS.</p>
+    <div class="header-shortcuts">
+      <a href="https://dash.cloudflare.com" target="_blank" rel="noopener noreferrer" class="shortcut-link sc-cloudflare">
+        <svg class="sc-logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M19.414 11.23a4.78 4.78 0 0 0-4.66-3.73c-.5 0-.98.08-1.43.23a6.002 6.002 0 0 0-11.29 2.77c0 .24.02.47.05.7A4.47 4.47 0 0 0 .5 15.5c0 2.48 2.02 4.5 4.5 4.5h14.5a4 4 0 0 0 4-4c0-2.03-1.51-3.71-3.5-3.96l-.586-.81z" fill="#F38020"/>
+          <path d="M18.5 20H4.5A4.5 4.5 0 0 1 2 11.83 6.002 6.002 0 0 1 13.324 7.5c.45-.15.93-.23 1.43-.23a4.78 4.78 0 0 1 4.66 3.73l.586.81C21.99 12.06 23.5 13.74 23.5 15.77A4 4 0 0 1 19.5 20h-1z" fill="#FAAD3F" opacity="0.3"/>
+          <path d="M19.5 16.5a2.5 2.5 0 0 0 0-5 .5.5 0 0 1-.4-.2 3.5 3.5 0 0 0-6.1-1.3.5.5 0 0 1-.7.1 4.5 4.5 0 0 0-8.2 2.9c0 .3.03.6.08.89a.5.5 0 0 1-.37.56A3 3 0 0 0 5 20h14.5a2.5 2.5 0 0 0 0-5v1.5z" fill="#F38020"/>
+        </svg>
+        <span>Cloudflare</span>
+        <span class="sc-arrow">↗</span>
+      </a>
+      <a href="https://login.tailscale.com/admin" target="_blank" rel="noopener noreferrer" class="shortcut-link sc-tailscale">
+        <svg class="sc-logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <circle cx="12" cy="5.5" r="2.5" fill="#2D3748"/>
+          <circle cx="12" cy="12" r="2.5" fill="#2D3748"/>
+          <circle cx="12" cy="18.5" r="2.5" fill="#2D3748"/>
+          <circle cx="5.5" cy="12" r="2.5" fill="#2D3748"/>
+          <circle cx="18.5" cy="12" r="2.5" fill="#2D3748"/>
+          <circle cx="5.5" cy="18.5" r="2.5" fill="#A0AEC0"/>
+          <circle cx="18.5" cy="5.5" r="2.5" fill="#A0AEC0"/>
+          <circle cx="5.5" cy="5.5" r="2.5" fill="#E2E8F0"/>
+          <circle cx="18.5" cy="18.5" r="2.5" fill="#E2E8F0"/>
+        </svg>
+        <span>Tailscale</span>
+        <span class="sc-arrow">↗</span>
+      </a>
+    </div>
   </header>
 
   <!-- VM INFO WIDGETS -->
@@ -43,9 +75,18 @@
       <svg class="widget-spark" id="w-disk-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><path class="spark-area" d=""></path><polyline class="spark-line" points=""></polyline></svg>
       <div class="widget-sub" id="w-disk-detail">—</div>
     </div>
+    <div class="widget widget-power">
+      <div class="widget-label">POWER DRAW</div>
+      <div class="widget-main"><span id="w-power-val">0</span><span class="unit">W</span></div>
+      <svg class="widget-spark" id="w-power-spark" viewBox="0 0 100 28" preserveAspectRatio="none"><path class="spark-area" d=""></path><polyline class="spark-line" points=""></polyline></svg>
+      <div class="widget-sub" id="w-power-detail">—</div>
+    </div>
     <div class="widget widget-time">
       <div class="widget-label">SERVER TIME</div>
-      <div class="widget-main" id="w-time">—</div>
+      <div class="widget-time-group">
+        <div class="widget-time-clock" id="w-clock">00:00:00</div>
+        <div class="widget-time-date" id="w-date">0000-00-00</div>
+      </div>
       <div class="widget-sub" id="w-uptime">uptime: —</div>
     </div>
   </section>
@@ -140,6 +181,42 @@
         <span class="arrow-btn">↗</span>
       </div>
     </a>
+
+    <!-- Card 6: MeTube -->
+    <a href="https://yt.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-orange">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">MEDIA DOWN</span>
+          <span class="app-status checking" data-url="https://yt.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">📺</span>
+      </div>
+      <h2 class="card-title">MeTube</h2>
+      <p class="card-desc">Self-hosted YouTube and video downloader powered by yt-dlp with playlist support.</p>
+      <div class="status-history" data-url="https://yt.ultradot.space"></div>
+      <div class="card-footer">
+        <span class="url-text">yt.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
+
+    <!-- Card 7: Portainer -->
+    <a href="https://docker.ultradot.space" target="_blank" rel="noopener noreferrer" class="card card-cyan">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">DOCKER MGR</span>
+          <span class="app-status checking" data-url="https://docker.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">🐳</span>
+      </div>
+      <h2 class="card-title">Portainer</h2>
+      <p class="card-desc">Centralized container management UI for Docker stacks, containers, volumes & logs.</p>
+      <div class="status-history" data-url="https://docker.ultradot.space"></div>
+      <div class="card-footer">
+        <span class="url-text">docker.ultradot.space</span>
+        <span class="arrow-btn">↗</span>
+      </div>
+    </a>
   </main>
 
   <footer class="footer">
@@ -148,6 +225,70 @@
       <span>ALL SYSTEMS OPERATIONAL</span>
     </div>
   </footer>
+
+  <!-- SETTINGS & SERVICES MODAL (NEOBRUTALISM) -->
+  <div class="modal-backdrop" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️</span>
+          <span id="modal-title-text">SIGN IN</span>
+        </div>
+        <button class="modal-close-btn" id="close-settings-btn" title="Tutup">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Toast Notification inside modal -->
+        <div class="toast-box" id="modal-toast"></div>
+
+        <!-- VIEW 1: AUTH GATE (LOGIN) -->
+        <div id="view-login" class="login-card" style="display: none;">
+          <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; margin-bottom: 0.2rem;">Sign In</h3>
+          
+          <div class="error-banner" id="login-error"></div>
+
+          <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group" style="margin-bottom: 0.9rem;">
+              <label class="form-label" for="admin-user">Username</label>
+              <input type="text" id="admin-user" class="form-input" placeholder="Username" autocomplete="username" required />
+            </div>
+            <div class="form-group" style="margin-bottom: 1.2rem;">
+              <label class="form-label" for="admin-pass">Password</label>
+              <input type="password" id="admin-pass" class="form-input" placeholder="Password" autocomplete="current-password" required />
+            </div>
+            <button type="submit" class="btn-submit" id="btn-login-submit">
+              <span>LOGIN ➔</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- VIEW 2: SERVICE CONTROLLER PANEL -->
+        <div id="view-panel" style="display: none; flex-direction: column; gap: 1rem;">
+          <div class="panel-top-bar">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <span class="panel-admin-badge">ADMIN ACTIVE</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;" id="service-count-text">—</span>
+            </div>
+            <div class="panel-actions-group">
+              <button class="btn-refresh" id="btn-refresh-services" onclick="loadServices(true)">↻ REFRESH</button>
+              <button class="btn-logout" onclick="handleLogout()">LOGOUT 🔒</button>
+            </div>
+          </div>
+
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="tab-pill active" data-filter="all" onclick="setServiceFilter('all', this)">ALL (<span id="count-all">0</span>)</button>
+            <button class="tab-pill" data-filter="systemd" onclick="setServiceFilter('systemd', this)">SYSTEMD (<span id="count-systemd">0</span>)</button>
+            <button class="tab-pill" data-filter="docker" onclick="setServiceFilter('docker', this)">DOCKER (<span id="count-docker">0</span>)</button>
+          </div>
+
+          <!-- Services List Container -->
+          <div class="service-list" id="services-container">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     let serverUptimeSec = 0;
@@ -211,9 +352,16 @@
         document.getElementById('w-mem-detail').textContent = d.mem.usedGB + 'G / ' + d.mem.totalGB + 'G';
         document.getElementById('w-disk-pct').textContent = d.disk.pct;
         document.getElementById('w-disk-detail').textContent = d.disk.used + ' / ' + d.disk.total + ' used';
+        if (d.power) {
+          document.getElementById('w-power-val').textContent = d.power.watts.toFixed(1);
+          document.getElementById('w-power-detail').textContent = d.power.detail;
+        }
         renderSpark('w-cpu-spark', d.history.cpu, 100);
         renderSpark('w-mem-spark', d.history.mem, 100);
         renderSpark('w-disk-spark', d.history.disk, 100);
+        if (d.history && d.history.power) {
+          renderSpark('w-power-spark', d.history.power, 100);
+        }
         
         serverUptimeSec = d.time.uptimeSec;
       } catch (e) { /* keep last value */ }
@@ -227,8 +375,13 @@
       }
       const now = new Date();
       const pad = (n) => n.toString().padStart(2, '0');
-      const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-      document.getElementById('w-time').textContent = timeStr;
+      const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      const dateStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+      
+      const clockEl = document.getElementById('w-clock');
+      const dateEl = document.getElementById('w-date');
+      if (clockEl) clockEl.textContent = timeStr;
+      if (dateEl) dateEl.textContent = dateStr;
     }
 
     // Refresh App Status - Every 60s
@@ -281,20 +434,267 @@
       }
     }
 
-    function renderSpark(id, data, h) {
+    function renderSpark(id, data, max = 100) {
       const svg = document.getElementById(id);
       if (!svg || data.length < 2) return;
-      const w = 100, max = 100;
+      const w = 100, h = 28;
+      const effectiveMax = Math.max(max, ...data, 1);
       const stepX = w / (data.length - 1);
       const points = data.map((v, i) => {
         const x = (i * stepX).toFixed(2);
-        const y = (h - (v / max) * h).toFixed(2);
+        const y = (h - (Math.min(v, effectiveMax) / effectiveMax) * (h - 6) - 3).toFixed(2);
         return x + ',' + y;
       }).join(' ');
       svg.querySelector('.spark-line').setAttribute('points', points);
       const area = 'M0,' + h + ' L' + points.split(' ').join(' L') + ' L' + w + ',' + h + ' Z';
       svg.querySelector('.spark-area').setAttribute('d', area);
     }
+
+    // --- Settings & Modal Auth Controller ---
+    const modalBackdrop = document.getElementById('settings-modal');
+    const openSettingsBtn = document.getElementById('open-settings-btn');
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+    const viewLogin = document.getElementById('view-login');
+    const viewPanel = document.getElementById('view-panel');
+    const loginError = document.getElementById('login-error');
+    const modalToast = document.getElementById('modal-toast');
+    const servicesContainer = document.getElementById('services-container');
+    const modalTitleText = document.getElementById('modal-title-text');
+
+    let allServicesData = [];
+    let currentFilter = 'all';
+
+    function showToast(msg, isError = false) {
+      modalToast.textContent = msg;
+      modalToast.className = 'toast-box ' + (isError ? 'error' : 'success');
+      modalToast.style.display = 'block';
+      setTimeout(() => {
+        modalToast.style.display = 'none';
+      }, 4000);
+    }
+
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/check');
+        const data = await res.json();
+        return Boolean(data.authenticated);
+      } catch(e) {
+        return false;
+      }
+    }
+
+    async function openModal() {
+      modalBackdrop.classList.add('open');
+      loginError.style.display = 'none';
+      modalToast.style.display = 'none';
+      
+      const authed = await checkAuth();
+      if (authed) {
+        showPanelView();
+      } else {
+        showLoginView();
+      }
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('open');
+      modalToast.style.display = 'none';
+    }
+
+    function showLoginView() {
+      modalTitleText.textContent = 'SIGN IN';
+      viewLogin.style.display = 'flex';
+      viewPanel.style.display = 'none';
+      setTimeout(() => {
+        const userInput = document.getElementById('admin-user');
+        if (userInput) userInput.focus();
+      }, 100);
+    }
+
+    function showPanelView() {
+      modalTitleText.textContent = 'SERVICE CONTROLLER';
+      viewLogin.style.display = 'none';
+      viewPanel.style.display = 'flex';
+      loadServices();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('admin-user').value.trim();
+      const password = document.getElementById('admin-pass').value;
+      const submitBtn = document.getElementById('btn-login-submit');
+      loginError.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>VERIFYING... ⏳</span>';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          document.getElementById('admin-user').value = '';
+          document.getElementById('admin-pass').value = '';
+          showPanelView();
+          showToast('Login berhasil! 🔓');
+        } else {
+          loginError.textContent = data.error || 'Username atau password salah!';
+          loginError.style.display = 'block';
+        }
+      } catch(err) {
+        loginError.textContent = 'Gagal menghubungi server.';
+        loginError.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>LOGIN ➔</span>';
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' });
+        showToast('Logout berhasil.');
+        showLoginView();
+      } catch(e) {
+        showLoginView();
+      }
+    }
+
+    async function loadServices(showNotification = false) {
+      servicesContainer.innerHTML = '<div style="font-family: \'JetBrains Mono\', monospace; font-size: 0.85rem; padding: 1.5rem; text-align: center;">Memuat status service... ⏳</div>';
+      try {
+        const res = await fetch('/api/services');
+        if (res.status === 401) {
+          showLoginView();
+          return;
+        }
+        const data = await res.json();
+        allServicesData = data.services || [];
+        renderServices();
+        if (showNotification) {
+          showToast('Status service berhasil diperbarui! ↻');
+        }
+      } catch(e) {
+        servicesContainer.innerHTML = '<div style="font-family: \'JetBrains Mono\', monospace; font-size: 0.85rem; padding: 1.5rem; color: #ff5252; text-align: center;">Gagal memuat status service.</div>';
+      }
+    }
+
+    function setServiceFilter(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.tab-pill').forEach(el => el.classList.remove('active'));
+      btn.classList.add('active');
+      renderServices();
+    }
+
+    function renderServices() {
+      const filtered = allServicesData.filter(s => {
+        if (currentFilter === 'all') return true;
+        return s.type === currentFilter;
+      });
+
+      // Update counters
+      const countAll = allServicesData.length;
+      const countSystemd = allServicesData.filter(s => s.type === 'systemd').length;
+      const countDocker = allServicesData.filter(s => s.type === 'docker').length;
+      
+      const countAllEl = document.getElementById('count-all');
+      const countSysEl = document.getElementById('count-systemd');
+      const countDocEl = document.getElementById('count-docker');
+      if (countAllEl) countAllEl.textContent = countAll;
+      if (countSysEl) countSysEl.textContent = countSystemd;
+      if (countDocEl) countDocEl.textContent = countDocker;
+
+      const activeCount = allServicesData.filter(s => s.running).length;
+      const countTextEl = document.getElementById('service-count-text');
+      if (countTextEl) countTextEl.textContent = `${activeCount}/${countAll} ACTIVE`;
+
+      if (filtered.length === 0) {
+        servicesContainer.innerHTML = '<div style="font-family: \'JetBrains Mono\', monospace; font-size: 0.85rem; padding: 1.5rem; text-align: center; border: 2px dashed #000; background: #fff;">Tidak ada service dalam kategori ini.</div>';
+        return;
+      }
+
+      servicesContainer.innerHTML = '';
+      filtered.forEach(s => {
+        const item = document.createElement('div');
+        item.className = 'service-item';
+
+        const isRunning = s.running;
+        const typeBadgeClass = s.type === 'docker' ? 'type-badge docker' : 'type-badge';
+        const statusBadgeClass = isRunning ? 'service-status-pill running' : 'service-status-pill stopped';
+        const statusText = isRunning ? 'RUNNING' : 'STOPPED';
+
+        item.innerHTML = `
+          <div class="service-item-header">
+            <div class="service-meta">
+              <div class="service-name">
+                <span>${s.name}</span>
+                <span class="${typeBadgeClass}">${s.type.toUpperCase()}</span>
+                ${s.port ? `<span class="port-badge">PORT: ${s.port}</span>` : ''}
+              </div>
+              <div class="service-submeta">${s.type === 'systemd' ? s.service || '' : s.container || ''}</div>
+              ${s.note ? `<div class="service-notice">ℹ️ ${s.note}</div>` : ''}
+            </div>
+            <span class="${statusBadgeClass}">${statusText}</span>
+          </div>
+
+          <div class="service-controls">
+            <button class="btn-svc btn-svc-start" ${isRunning ? 'disabled' : ''} onclick="triggerServiceAction('${s.id}', 'start', this)">
+              <span>▶ START</span>
+            </button>
+            <button class="btn-svc btn-svc-stop" ${!isRunning ? 'disabled' : ''} onclick="triggerServiceAction('${s.id}', 'stop', this)">
+              <span>⏹ STOP</span>
+            </button>
+            <button class="btn-svc btn-svc-restart" onclick="triggerServiceAction('${s.id}', 'restart', this)">
+              <span>🔄 RESTART</span>
+            </button>
+          </div>
+        `;
+        servicesContainer.appendChild(item);
+      });
+    }
+
+    async function triggerServiceAction(id, action, btn) {
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ RUNNING...</span>';
+
+      try {
+        const res = await fetch('/api/services/action', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, action })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast(`Berhasil ${action.toUpperCase()} service '${id}'! ✅`);
+          setTimeout(() => {
+            loadServices();
+          }, 1200);
+        } else {
+          showToast(`Gagal: ${data.error || 'Terjadi kesalahan'}`, true);
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+        }
+      } catch(err) {
+        showToast('Gagal menghubungi server untuk menjalankan aksi.', true);
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    // Modal Event Listeners
+    openSettingsBtn.addEventListener('click', openModal);
+    closeSettingsBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
+        closeModal();
+      }
+    });
 
     // Init and Set Intervals
     initHeartbeats();

@@ -1,0 +1,69 @@
+{
+  "adminUsername": "admin",
+  "adminPassword": "admin",
+  "services": [
+    {
+      "id": "it-tools",
+      "name": "IT Tools",
+      "type": "systemd",
+      "service": "it-tools.service",
+      "port": 9000,
+      "note": "Python server di port 9000",
+      "url": "https://tools.ultradot.space"
+    },
+    {
+      "id": "stirling-pdf",
+      "name": "Stirling-PDF",
+      "type": "systemd",
+      "service": "stirling-pdf.service",
+      "port": 8080,
+      "note": "Java JVM, environment PORT=8080",
+      "url": "https://pdf.ultradot.space"
+    },
+    {
+      "id": "uptime-kuma",
+      "name": "Uptime Kuma",
+      "type": "systemd",
+      "service": "uptime-kuma.service",
+      "port": 3001,
+      "note": "Web UI monitoring, port 3001",
+      "url": "https://kuma.ultradot.space"
+    },
+    {
+      "id": "dashboard-web",
+      "name": "Dashboard Web",
+      "type": "systemd",
+      "service": "dashboard-web.service",
+      "port": 8000,
+      "note": "ULTRADOT dashboard internal, port 8000",
+      "url": "http://localhost:8000"
+    },
+    {
+      "id": "openclaw-gateway",
+      "name": "OpenClaw Gateway",
+      "type": "systemd",
+      "service": "openclaw-gateway.service",
+      "port": null,
+      "note": "Service sistem OpenClaw, tidak bisa dihentikan sekaligus app lain",
+      "url": "https://claw.ultradot.space"
+    },
+    {
+      "id": "metube",
+      "name": "MeTube",
+      "type": "docker",
+      "container": "metube",
+      "port": 8081,
+      "note": "8081 -> 8081/tcp",
+      "url": "https://yt.ultradot.space"
+    },
+    {
+      "id": "portainer",
+      "name": "Portainer",
+      "type": "docker",
+      "container": "portainer",
+      "port": 9000,
+      "note": "8000/tcp, 9443/tcp, 9001->9000/tcp",
+      "url": "https://docker.ultradot.space"
+    }
+  ]
+}

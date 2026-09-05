@@ -5,23 +5,26 @@ A lightweight, zero-dependency Node.js server dashboard featuring a striking **N
 ## Features ✨
 
 - **Neobrutalism UI**: High-contrast colors, harsh solid shadows, thick borders, and aggressive typography (`Space Grotesk` & `JetBrains Mono`).
-- **Zero External Dependencies**: Built entirely with Node.js built-in modules (`http`, `os`, `fs`, `child_process`).
+- **Zero External Dependencies**: Built entirely with Node.js built-in modules (`http`, `os`, `fs`, `child_process`, `crypto`).
+- **Settings & Service Controller (Top-Right)**:
+  - Protected with built-in **Authentication Middleware** (session cookies via native `crypto`).
+  - Controls VPS services and Docker containers: **Start**, **Stop**, and **Restart** directly from the UI.
+  - Automatically queries live service status via `systemctl --user is-active` and `docker inspect`.
 - **Live System Metrics**: 
-  - Tracks CPU load, Memory usage, and Storage capacity.
+  - Tracks CPU load, Memory usage, Storage capacity, and Power draw (Watts).
+  - Automatically reads Intel RAPL / hwmon sensors with smart dynamic VPS power modeling.
   - Generates sparkline history graphs directly on the client side.
   - Updates every 4 seconds.
 - **App Status Monitor**: 
   - Built-in ping functionality to check the HTTP status of tracked apps.
-  - Live "kotak-kotak" visual badges (`CHK`, `UP`, `DOWN`) updating every 60 seconds.
+  - Live visual heartbeat history badges (`CHK`, `UP`, `DOWN`) updating every 60 seconds.
 - **Real-Time Clock & Uptime**: Accurately tracks server time and uptime down to the second.
 
-## Monitored Applications 🛠️
+## Monitored & Managed Services 🛠️
 
-Currently configured to track the following services out of the box:
-- **OpenClaw** (AI Gateway)
-- **9router** (Load Balancer)
-- **Uptime Kuma** (Monitoring)
-- **Stirling-PDF** (PDF Toolset)
+Managed via `services.json`:
+- **Systemd User Services**: `it-tools.service` (port 9000), `stirling-pdf.service` (port 8080), `uptime-kuma.service` (port 3001), `dashboard-web.service` (port 8000), `openclaw-gateway.service`.
+- **Docker Containers**: `metube` (port 8081), `portainer` (port 9000/9443).
 
 ## Installation & Usage 💻
 
