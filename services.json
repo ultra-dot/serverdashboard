@@ -64,6 +64,15 @@
       "port": 9000,
       "note": "8000/tcp, 9443/tcp, 9001->9000/tcp",
       "url": "https://docker.ultradot.space"
+    },
+    {
+      "id": "navidrome",
+      "name": "Navidrome",
+      "type": "docker",
+      "container": "navidrome",
+      "port": 4533,
+      "note": "Music Server & FLAC Streamer",
+      "url": "https://music.ultradot.space"
     }
   ]
 }

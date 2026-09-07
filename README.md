@@ -20,11 +20,15 @@ A lightweight, zero-dependency Node.js server dashboard featuring a striking **N
   - Live visual heartbeat history badges (`CHK`, `UP`, `DOWN`) updating every 60 seconds.
 - **Real-Time Clock & Uptime**: Accurately tracks server time and uptime down to the second.
 
-## Monitored & Managed Services 🛠️
-
-Managed via `services.json`:
-- **Systemd User Services**: `it-tools.service` (port 9000), `stirling-pdf.service` (port 8080), `uptime-kuma.service` (port 3001), `dashboard-web.service` (port 8000), `openclaw-gateway.service`.
-- **Docker Containers**: `metube` (port 8081), `portainer` (port 9000/9443).
+- **Navidrome & Quick Grab FLAC Downloader**:
+  - Integrated Navidrome music server management.
+  - Interactive Modal for downloading FLAC lossless music (1411kbps) via `grab-music` and `grab-parallel`.
+  - Supports single link and batch multiple links (paste one link per line).
+  - Real-time terminal log viewer inside modal and auto-restart/scan for Navidrome.
+- **Monitored & Managed Services**:
+  - Managed via `services.json`.
+  - **Systemd User Services**: `it-tools.service` (port 9000), `stirling-pdf.service` (port 8080), `uptime-kuma.service` (port 3001), `dashboard-web.service` (port 8000), `openclaw-gateway.service`.
+  - **Docker Containers**: `metube` (port 8081), `portainer` (port 9000/9443), `navidrome` (port 4533).
 
 ## Installation & Usage 💻
 

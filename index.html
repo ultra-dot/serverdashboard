@@ -11,16 +11,16 @@
 </head>
 <body>
 
-  <!-- Fixed Floating Settings Trigger Button (Top-Right) -->
-  <button class="settings-btn" id="open-settings-btn" aria-label="Buka Pengaturan & Kontrol Layanan">
-    <span>⚙️</span>
-    <span>SETTINGS</span>
-  </button>
-
   <header class="header">
     <div class="badge">SERVER DASHBOARD</div>
     <h1 class="title">ULTRADOT's HQ 🚀</h1>
     <p class="subtitle">Quick access to all self-hosted apps running on VPS.</p>
+    <div class="header-actions">
+      <button class="shortcut-link sc-settings" id="open-settings-btn" aria-label="Buka Pengaturan & Kontrol Layanan">
+        <span>⚙️</span>
+        <span>Settings</span>
+      </button>
+    </div>
     <div class="header-shortcuts">
       <a href="https://dash.cloudflare.com" target="_blank" rel="noopener noreferrer" class="shortcut-link sc-cloudflare">
         <svg class="sc-logo" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -217,6 +217,24 @@
         <span class="arrow-btn">↗</span>
       </div>
     </a>
+
+    <!-- Card 8: Navidrome -->
+    <a href="javascript:void(0)" onclick="openNavidromeModal(event)" class="card card-purple">
+      <div class="card-header">
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <span class="tag">MUSIC SERVER</span>
+          <span class="app-status checking" data-url="https://music.ultradot.space">WAIT</span>
+        </div>
+        <span class="icon">🎧</span>
+      </div>
+      <h2 class="card-title">Navidrome</h2>
+      <p class="card-desc">Modern self-hosted music server & streamer for high-res FLAC audio library.</p>
+      <div class="status-history" data-url="https://music.ultradot.space"></div>
+      <div class="card-footer">
+        <span class="url-text">music.ultradot.space</span>
+        <span class="arrow-btn">⚡ OPTIONS</span>
+      </div>
+    </a>
   </main>
 
   <footer class="footer">
@@ -284,6 +302,47 @@
           <!-- Services List Container -->
           <div class="service-list" id="services-container">
             <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- VIEW 3: NAVIDROME MUSIC DOWNLOADER PANEL -->
+        <div id="view-music" style="display: none; flex-direction: column; gap: 1rem;">
+          <div class="music-nav-choice">
+            <a href="https://music.ultradot.space" target="_blank" rel="noopener noreferrer" class="nav-choice-btn primary">
+              <span style="font-size: 1.5rem;">🎧</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1rem;">OPEN NAVIDROME</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #333;">music.ultradot.space ↗</span>
+            </a>
+            <div class="nav-choice-btn" onclick="focusMusicInput()">
+              <span style="font-size: 1.5rem;">📥</span>
+              <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 1rem;">GRAB MUSIC (FLAC)</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #333;">Deezer Downloader</span>
+            </div>
+          </div>
+
+          <div class="music-modal-card">
+            <h4 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 900;">🎵 Downloader FLAC Lossless (1411kbps)</h4>
+            <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #222; font-weight: 700; line-height: 1.4;">
+              Paste 1 link atau banyak link Deezer sekaligus (satu link per baris) untuk otomatis men-download FLAC & auto-scan Navidrome!
+            </p>
+
+            <form id="music-grab-form" onsubmit="handleGrabMusic(event)">
+              <div class="form-group" style="margin-bottom: 0.8rem;">
+                <label class="form-label" for="music-links-input">Deezer Links (Track / Album / Playlist / Shortlink)</label>
+                <textarea id="music-links-input" class="music-textarea" placeholder="Paste link di sini, contoh:
+https://www.deezer.com/en/album/123456
+https://link.deezer.com/s/abcdef" required></textarea>
+              </div>
+
+              <div style="display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.8rem;">
+                <button type="submit" class="btn-submit" id="btn-music-submit" style="flex: 1;">
+                  <span>START DOWNLOADING 🎵</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Real-time Terminal Log Output -->
+            <div class="terminal-box" id="music-terminal-log"></div>
           </div>
         </div>
       </div>
@@ -456,13 +515,16 @@
     const closeSettingsBtn = document.getElementById('close-settings-btn');
     const viewLogin = document.getElementById('view-login');
     const viewPanel = document.getElementById('view-panel');
+    const viewMusic = document.getElementById('view-music');
     const loginError = document.getElementById('login-error');
     const modalToast = document.getElementById('modal-toast');
     const servicesContainer = document.getElementById('services-container');
     const modalTitleText = document.getElementById('modal-title-text');
+    const musicTerminalLog = document.getElementById('music-terminal-log');
 
     let allServicesData = [];
     let currentFilter = 'all';
+    let pendingModalTarget = null; // 'settings' | 'navidrome'
 
     function showToast(msg, isError = false) {
       modalToast.textContent = msg;
@@ -484,6 +546,7 @@
     }
 
     async function openModal() {
+      pendingModalTarget = 'settings';
       modalBackdrop.classList.add('open');
       loginError.style.display = 'none';
       modalToast.style.display = 'none';
@@ -496,15 +559,32 @@
       }
     }
 
+    async function openNavidromeModal(e) {
+      if (e) e.preventDefault();
+      pendingModalTarget = 'navidrome';
+      modalBackdrop.classList.add('open');
+      loginError.style.display = 'none';
+      modalToast.style.display = 'none';
+
+      const authed = await checkAuth();
+      if (authed) {
+        showMusicView();
+      } else {
+        showLoginView();
+      }
+    }
+
     function closeModal() {
       modalBackdrop.classList.remove('open');
       modalToast.style.display = 'none';
+      pendingModalTarget = null;
     }
 
     function showLoginView() {
       modalTitleText.textContent = 'SIGN IN';
       viewLogin.style.display = 'flex';
       viewPanel.style.display = 'none';
+      if (viewMusic) viewMusic.style.display = 'none';
       setTimeout(() => {
         const userInput = document.getElementById('admin-user');
         if (userInput) userInput.focus();
@@ -514,8 +594,25 @@
     function showPanelView() {
       modalTitleText.textContent = 'SERVICE CONTROLLER';
       viewLogin.style.display = 'none';
+      if (viewMusic) viewMusic.style.display = 'none';
       viewPanel.style.display = 'flex';
       loadServices();
+    }
+
+    function showMusicView() {
+      modalTitleText.textContent = 'NAVIDROME & MUSIC GRABBER';
+      viewLogin.style.display = 'none';
+      viewPanel.style.display = 'none';
+      if (viewMusic) viewMusic.style.display = 'flex';
+      setTimeout(() => {
+        const input = document.getElementById('music-links-input');
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function focusMusicInput() {
+      const input = document.getElementById('music-links-input');
+      if (input) input.focus();
     }
 
     async function handleLogin(e) {
@@ -537,8 +634,12 @@
         if (res.ok && data.success) {
           document.getElementById('admin-user').value = '';
           document.getElementById('admin-pass').value = '';
-          showPanelView();
           showToast('Login berhasil! 🔓');
+          if (pendingModalTarget === 'navidrome') {
+            showMusicView();
+          } else {
+            showPanelView();
+          }
         } else {
           loginError.textContent = data.error || 'Username atau password salah!';
           loginError.style.display = 'block';
@@ -549,6 +650,46 @@
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<span>LOGIN ➔</span>';
+      }
+    }
+
+    async function handleGrabMusic(e) {
+      e.preventDefault();
+      const rawText = document.getElementById('music-links-input').value;
+      const links = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+      const submitBtn = document.getElementById('btn-music-submit');
+      
+      if (links.length === 0) {
+        showToast('Masukkan minimal 1 link Deezer', true);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<span>DOWNLOADING (${links.length} LINK) ... ⏳</span>`;
+      musicTerminalLog.style.display = 'block';
+      musicTerminalLog.textContent = `[SYSTEM] Memulai proses download FLAC (${links.length} URL)...\n[COMMAND] ${links.length === 1 ? 'grab-music' : 'grab-parallel'}\n\n`;
+
+      try {
+        const res = await fetch('/api/music/grab', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ links })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          musicTerminalLog.textContent += `[SUCCESS] Download Selesai! (${data.count} item)\n\n[OUTPUT LOG]\n` + data.message + '\n\n[SYSTEM] Navidrome telah di-scan/refresh.';
+          showToast(`Berhasil men-download ${data.count} item FLAC ke ~/music! 🎵`);
+          document.getElementById('music-links-input').value = '';
+        } else {
+          musicTerminalLog.textContent += `[ERROR] Gagal: ` + (data.error || 'Terjadi kesalahan');
+          showToast(`Gagal: ${data.error || 'Proses download gagal'}`, true);
+        }
+      } catch(err) {
+        musicTerminalLog.textContent += `[ERROR] Gagal menghubungi server.`;
+        showToast('Gagal menghubungi server.', true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>START DOWNLOADING 🎵</span>';
       }
     }
 

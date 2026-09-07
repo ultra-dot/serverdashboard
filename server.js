@@ -436,6 +436,62 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // --- Music Downloader API (Protected) ---
+  if (req.url === '/api/music/grab' && req.method === 'POST') {
+    if (!isAuthenticated(req)) {
+      res.writeHead(401, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Unauthorized: Silakan login terlebih dahulu' }));
+      return;
+    }
+    parseJsonBody(req, (err, body) => {
+      if (err || !body.links || !Array.isArray(body.links) || body.links.length === 0) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Minimal 1 link URL harus diisi' }));
+        return;
+      }
+
+      // Sanitize URLs to prevent command injection
+      const cleanLinks = body.links.map(l => String(l).trim()).filter(l => l.length > 0);
+      const urlRegex = /^https?:\/\/[^\s"'$`\\;><&|()]+$/i;
+      const invalidLinks = cleanLinks.filter(l => !urlRegex.test(l));
+
+      if (invalidLinks.length > 0) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Ada URL dengan format tidak valid atau berbahaya' }));
+        return;
+      }
+
+      const grabSingle = '/home/baha/.local/bin/grab-music';
+      const grabParallel = '/home/baha/.local/bin/grab-parallel';
+
+      let command = '';
+      if (cleanLinks.length === 1) {
+        command = `${grabSingle} "${cleanLinks[0]}"`;
+      } else {
+        const quotedArgs = cleanLinks.map(l => `"${l}"`).join(' ');
+        command = `${grabParallel} ${quotedArgs}`;
+      }
+
+      exec(command, { timeout: 300000 }, (execErr, stdout, stderr) => {
+        const output = (stdout || stderr || (execErr ? execErr.message : 'Selesai')).trim();
+        if (execErr) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: output || execErr.message }));
+          return;
+        }
+
+        // Optional auto-restart Navidrome to scan new FLAC files
+        try {
+          execSync('docker restart navidrome', { stdio: 'ignore' });
+        } catch (e) { /* ignore restart error */ }
+
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, message: output, count: cleanLinks.length }));
+      });
+    });
+    return;
+  }
+
   // --- /api/system aggregator ---
   if (req.url === '/api/system') {
     try {
